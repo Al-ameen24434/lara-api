@@ -54,8 +54,7 @@ class TaskController extends Controller
      */
     public function show(Request $request, Task $task): JsonResponse
     {
-        // authorize() checks if the logged-in user owns this task
-        return response()->json($task);
+            return response()->json($task);
         
     }
 
