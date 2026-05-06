@@ -6,7 +6,7 @@ use App\Models\Task;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Resources\TaskResource;
+use App\Http\Resources\TaskResource;
 
 class TaskController extends Controller
 {
@@ -27,7 +27,7 @@ class TaskController extends Controller
     /**
      * POST /api/tasks — Create a new task
      */
-    public function store(Request $request): JsonResponse
+    public function store(Request $request): TaskResource
     {
         $validated = $request->validate([
             'title'       => 'required|string|max:255',
@@ -42,20 +42,15 @@ class TaskController extends Controller
             'user_id' => $request->user()->id,
         ]));
 
-        return response()->json([
-            'message' => 'Task created successfully',
-            'task'    => $task,
-        ], 201);
-        
+        return new TaskResource($task);
     }
 
     /**
      * GET /api/tasks/{task} — Get a single task
      */
-    public function show(Request $request, Task $task): JsonResponse
+    public function show(Request $request, Task $task): TaskResource
     {
-            return response()->json($task);
-        
+        return new TaskResource($task);
     }
 
     /**
