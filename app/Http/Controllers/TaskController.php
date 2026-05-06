@@ -14,14 +14,14 @@ class TaskController extends Controller
     /**
      * GET /api/tasks — List all tasks for the logged-in user
      */
-    public function index(Request $request): JsonResponse
+    public function index(Request $request)
     {
         $tasks = $request->user()
                          ->tasks()
                          ->latest()
                          ->paginate(10);
 
-        return response()->json($tasks);
+        return TaskResource::collection($tasks);
     }
 
     /**
